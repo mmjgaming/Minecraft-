@@ -1,74 +1,144 @@
 ```html
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>OpenionBD | Redeem</title>
-<link rel="stylesheet" href="style.css">
+<title>MMJ Servers</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+background:#0b0f1a;
+color:white;
+}
+
+/* NAVBAR */
+
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 40px;
+}
+
+.logo{
+font-size:24px;
+font-weight:bold;
+color:#22c55e;
+}
+
+.nav-links{
+display:flex;
+gap:30px;
+align-items:center;
+}
+
+.nav-links a{
+text-decoration:none;
+color:#cbd5f5;
+}
+
+.nav-links a:hover{
+color:white;
+}
+
+/* BUTTON */
+
+.upload-btn{
+background:#22c55e;
+padding:10px 18px;
+border-radius:8px;
+text-decoration:none;
+color:black;
+font-weight:bold;
+}
+
+/* HERO */
+
+.hero{
+height:85vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+background:linear-gradient(135deg,#0b0f1a,#111827);
+}
+
+.hero h1{
+font-size:70px;
+margin-top:20px;
+}
+
+.hero p{
+margin-top:10px;
+font-size:18px;
+color:#9ca3af;
+}
+
+.server-btn{
+margin-top:30px;
+background:#22c55e;
+padding:14px 28px;
+border-radius:8px;
+text-decoration:none;
+color:black;
+font-size:18px;
+font-weight:bold;
+}
+
+.server-btn:hover{
+background:#16a34a;
+}
+
+</style>
 </head>
 
 <body>
 
-<div class="sidebar">
-<h2>OpenionBD</h2>
+<!-- NAVBAR -->
 
-<a href="dashboard.html">Dashboard</a>
-<a href="survey.html">Surveys</a>
-<a href="redeem.html">Redeem</a>
+<div class="navbar">
 
-</div>
+<div class="logo">MMJ Servers</div>
 
-<div class="main">
+<div class="nav-links">
 
-<h1>Redeem Rewards</h1>
+<a href="#">Discover content</a>
 
-<div class="redeem-grid">
+<a href="servers.html">View Our Servers</a>
 
-<div class="reward-card">
-<h3>PayPal $5</h3>
-<p>500 Points</p>
-<a class="btn" href="https://forms.gle/txAr3goDh8A7tiU38">Redeem</a>
-</div>
+<a href="#">Get Server App</a>
 
-<div class="reward-card">
-<h3>Amazon Gift Card</h3>
-<p>700 Points</p>
-<a class="btn" href="https://forms.gle/txAr3goDh8A7tiU38">Redeem</a>
-</div>
-
-<div class="reward-card">
-<h3>Discord Nitro</h3>
-<p>700 Points</p>
-<a class="btn" href="https://forms.gle/txAr3goDh8A7tiU38">Redeem</a>
-</div>
-
-<div class="reward-card">
-<h3>Google Play Card</h3>
-<p>600 Points</p>
-<a class="btn" href="https://forms.gle/txAr3goDh8A7tiU38">Redeem</a>
-</div>
-
-<div class="reward-card">
-<h3>Discord VIP Role</h3>
-<p>300 Points</p>
-<a class="btn" href="https://forms.gle/txAr3goDh8A7tiU38">Redeem</a>
-</div>
-
-<div class="reward-card">
-<h3>Discord Premium Role</h3>
-<p>450 Points</p>
-<a class="btn" href="https://forms.gle/txAr3goDh8A7tiU38">Redeem</a>
-</div>
+<a class="upload-btn" href="upload.html">Upload a Server</a>
 
 </div>
 
 </div>
 
-<footer>
-<p>© 2026 OpenionBD</p>
-</footer>
+
+<!-- HERO -->
+
+<section class="hero">
+
+<h1>The place for Minecraft Servers</h1>
+
+<p>Discover, upload, and explore the best Minecraft servers.</p>
+
+<a class="server-btn" href="servers.html">View Our Servers</a>
+
+</section>
 
 </body>
 </html>
 ```
+
 
