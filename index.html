@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,19 +34,53 @@ font-weight:bold;
 color:#22c55e;
 }
 
+/* NAV LINKS */
+
 .nav-links{
 display:flex;
 gap:30px;
 align-items:center;
+position:relative;
 }
 
 .nav-links a{
 text-decoration:none;
 color:#cbd5f5;
+font-size:15px;
 }
 
 .nav-links a:hover{
 color:white;
+}
+
+/* DROPDOWN */
+
+.dropdown{
+position:relative;
+}
+
+.dropdown-content{
+display:none;
+position:absolute;
+top:30px;
+background:#111827;
+padding:10px;
+border-radius:8px;
+min-width:150px;
+}
+
+.dropdown-content a{
+display:block;
+padding:8px;
+}
+
+.dropdown-content a:hover{
+background:#1f2937;
+border-radius:5px;
+}
+
+.dropdown:hover .dropdown-content{
+display:block;
 }
 
 /* BUTTON */
@@ -74,8 +107,7 @@ background:linear-gradient(135deg,#0b0f1a,#111827);
 }
 
 .hero h1{
-font-size:70px;
-margin-top:20px;
+font-size:65px;
 }
 
 .hero p{
@@ -95,16 +127,11 @@ font-size:18px;
 font-weight:bold;
 }
 
-.server-btn:hover{
-background:#16a34a;
-}
-
 </style>
+
 </head>
 
 <body>
-
-<!-- NAVBAR -->
 
 <div class="navbar">
 
@@ -112,11 +139,25 @@ background:#16a34a;
 
 <div class="nav-links">
 
-<a href="#">Discover content</a>
+<div class="dropdown">
+
+<a href="#">Discover Content ▾</a>
+
+<div class="dropdown-content">
+
+<a href="mods.html">Mods</a>
+
+<a href="plugins.html">Plugins</a>
+
+<a href="servers.html">Servers</a>
+
+<a href="modpack.html">Modpacks</a>
+
+</div>
+
+</div>
 
 <a href="servers.html">View Our Servers</a>
-
-<a href="#">Get Server App</a>
 
 <a class="upload-btn" href="upload.html">Upload a Server</a>
 
@@ -125,13 +166,11 @@ background:#16a34a;
 </div>
 
 
-<!-- HERO -->
-
 <section class="hero">
 
 <h1>The place for Minecraft Servers</h1>
 
-<p>Discover, upload, and explore the best Minecraft servers.</p>
+<p>Discover mods, plugins, servers and modpacks.</p>
 
 <a class="server-btn" href="servers.html">View Our Servers</a>
 
@@ -139,6 +178,3 @@ background:#16a34a;
 
 </body>
 </html>
-```
-
-
