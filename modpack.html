@@ -2,141 +2,1040 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Modpacks | MMJ Servers</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modpacks | MMJ Servers</title>
+<meta name="description" content="Curated Minecraft modpacks — from tech and magic to skyblock and PvP. Download and play instantly.">
+<meta name="keywords" content="Minecraft modpacks, ATM8, RLCraft, SkyFactory, FTB, MMJ Servers">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
 <style>
-body{
-    background:#0b0f1a;
-    color:white;
-    font-family:Arial;
-    margin:0;
+
+:root {
+    --bg-dark: #0f172a;
+    --bg-card: #1e293b;
+    --bg-header: rgba(2, 6, 23, 0.95);
+    --primary: #0ea5e9;
+    --primary-hover: #0284c7;
+    --accent-green: #22c55e;
+    --accent-green-hover: #16a34a;
+    --accent-amber: #f59e0b;
+    --accent-purple: #a855f7;
+    --accent-red: #ef4444;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --border: #334155;
 }
 
-.title{
-    text-align:center;
-    font-size:40px;
-    margin-top:40px;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.modpacks{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-    gap:25px;
-    padding:40px;
+html {
+    scroll-behavior: smooth;
 }
 
-.modpack-card{
-    background:#111827;
-    padding:20px;
-    border-radius:10px;
-    transition:0.2s;
+body {
+    background: var(--bg-dark);
+    color: var(--text-main);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
 }
 
-.modpack-card:hover{
-    transform:translateY(-5px);
+/* --- HEADER --- */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    background: var(--bg-header);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
-.modpack-card h3{
-    color:#22c55e;
-    margin-bottom:10px;
+.logo {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.modpack-card p{
-    color:#9ca3af;
-    font-size:14px;
-    margin-bottom:15px;
-    line-height:1.6;
+.logo-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: var(--accent-green);
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
 }
 
-.download-btn{
-    background:#22c55e;
-    padding:8px 16px;
-    border-radius:6px;
-    text-decoration:none;
-    color:black;
-    font-weight:bold;
+/* --- NAV LINKS --- */
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.download-btn:hover{
-    background:#16a34a;
+.nav-link {
+    padding: 8px 16px;
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: 0.2s;
+}
+
+.nav-link:hover {
+    color: var(--text-main);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.nav-link.active {
+    color: var(--text-main);
+}
+
+/* --- DROPDOWN --- */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-trigger {
+    padding: 8px 16px;
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: 0.2s;
+    border: none;
+    background: none;
+    font-family: inherit;
+}
+
+.dropdown-trigger:hover,
+.dropdown-trigger.active {
+    color: var(--text-main);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.dropdown-arrow {
+    font-size: 0.7rem;
+    transition: transform 0.2s ease;
+    line-height: 1;
+}
+
+.dropdown-trigger.active .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) translateY(-8px);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 8px;
+    min-width: 180px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+    z-index: 100;
+}
+
+.dropdown-menu.open {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+}
+
+.dropdown-menu a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 14px;
+    text-decoration: none;
+    color: var(--text-muted);
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    transition: 0.15s;
+}
+
+.dropdown-menu a:hover {
+    background: var(--border);
+    color: var(--text-main);
+}
+
+.dropdown-menu a.active-page {
+    color: var(--accent-purple);
+}
+
+.dropdown-icon {
+    font-size: 1.1rem;
+    line-height: 1;
+    width: 24px;
+    text-align: center;
+}
+
+/* --- CTA BUTTON --- */
+.nav-cta {
+    padding: 8px 20px;
+    background: var(--accent-green);
+    border-radius: 8px;
+    text-decoration: none;
+    color: #022c22;
+    font-weight: 700;
+    font-size: 0.88rem;
+    transition: 0.2s;
+    box-shadow: 0 2px 10px rgba(34, 197, 94, 0.25);
+    margin-left: 4px;
+}
+
+.nav-cta:hover {
+    background: var(--accent-green-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.35);
+}
+
+/* --- MOBILE MENU --- */
+.mobile-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 24px;
+    cursor: pointer;
+    padding: 5px;
+    line-height: 1;
+    transition: color 0.2s;
+}
+.mobile-toggle:hover { color: var(--text-main); }
+
+.mobile-menu {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 2000;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, visibility 0.3s;
+}
+
+.mobile-menu.open {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.mobile-menu-inner {
+    background: var(--bg-card);
+    width: 280px;
+    height: 100%;
+    padding: 30px 24px;
+    border-right: 1px solid var(--border);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.mobile-menu.open .mobile-menu-inner {
+    transform: translateX(0);
+}
+
+.mobile-close {
+    align-self: flex-end;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 28px;
+    cursor: pointer;
+    padding: 4px;
+    margin-bottom: 20px;
+    line-height: 1;
+    transition: color 0.2s;
+}
+.mobile-close:hover { color: white; }
+
+.mobile-menu a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 12px;
+    text-decoration: none;
+    color: var(--text-muted);
+    border-radius: 10px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: 0.15s;
+}
+
+.mobile-menu a:hover {
+    background: var(--border);
+    color: var(--text-main);
+}
+
+.mobile-menu .mobile-icon {
+    font-size: 1.2rem;
+    width: 28px;
+    text-align: center;
+    line-height: 1;
+}
+
+.mobile-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 12px 0;
+}
+
+.mobile-cta {
+    margin-top: auto;
+    display: block;
+    padding: 14px;
+    background: var(--accent-green);
+    border-radius: 10px;
+    text-decoration: none;
+    color: #022c22;
+    font-weight: 700;
+    text-align: center;
+    font-size: 0.95rem;
+}
+
+/* --- HERO --- */
+.hero {
+    min-height: 35vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(160deg, #1e1b4b 0%, #0f172a 55%, #1e293b 100%);
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: var(--accent-purple);
+    filter: blur(150px);
+    opacity: 0.12;
+    border-radius: 50%;
+    top: -120px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: #6366f1;
+    filter: blur(120px);
+    opacity: 0.08;
+    border-radius: 50%;
+    bottom: -80px;
+    right: 10%;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    padding: 0 20px;
+}
+
+.hero h1 {
+    font-size: clamp(32px, 4vw, 50px);
+    font-weight: 800;
+    background: linear-gradient(to right, #fff, #c4b5fd);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 17px;
+    color: var(--text-muted);
+}
+
+/* --- FILTER BAR --- */
+.filter-bar {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 45px 40px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 8px 18px;
+    border-radius: 50px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-muted);
+    font-family: inherit;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.filter-btn:hover {
+    border-color: var(--text-muted);
+    color: var(--text-main);
+}
+
+.filter-btn.active {
+    background: var(--accent-purple);
+    border-color: var(--accent-purple);
+    color: white;
+}
+
+/* --- CARD GRID --- */
+.modpacks-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 40px 80px;
+}
+
+.modpacks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 22px;
+}
+
+.modpack-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 0;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.modpack-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+    border-color: var(--accent-purple);
+}
+
+/* Card image area */
+.card-visual {
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-visual::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 40%, var(--bg-card));
+}
+
+.card-emoji {
+    font-size: 3rem;
+    position: relative;
+    z-index: 1;
+    line-height: 1;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+}
+
+.card-body {
+    padding: 20px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.card-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+
+.card-tag {
+    padding: 3px 10px;
+    border-radius: 50px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.tag-tech     { background: rgba(14, 165, 233, 0.12); color: #38bdf8; }
+.tag-magic    { background: rgba(168, 85, 247, 0.12); color: #c084fc; }
+.tag-adventure { background: rgba(34, 197, 94, 0.12); color: #4ade80; }
+.tag-skyblock { background: rgba(250, 204, 21, 0.12); color: #facc15; }
+.tag-hardcore { background: rgba(239, 68, 68, 0.12); color: #f87171; }
+.tag-quest    { background: rgba(251, 146, 60, 0.12); color: #fb923c; }
+.tag-pvp      { background: rgba(239, 68, 68, 0.12); color: #f87171; }
+.tag-featured { background: rgba(250, 204, 21, 0.15); color: #fbbf24; border: 1px solid rgba(250, 204, 21, 0.3); }
+
+.card-body h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text-main);
+}
+
+.card-body p {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 18px;
+    flex-grow: 1;
+}
+
+.card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 20px;
+    background: var(--accent-green);
+    border-radius: 8px;
+    text-decoration: none;
+    color: #022c22;
+    font-weight: 700;
+    font-size: 0.85rem;
+    transition: 0.2s;
+    box-shadow: 0 2px 10px rgba(34, 197, 94, 0.2);
+}
+
+.download-btn:hover {
+    background: var(--accent-green-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+}
+
+.card-source {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    opacity: 0.7;
+}
+
+/* --- NO RESULTS --- */
+.no-results {
+    display: none;
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+}
+
+.no-results.visible {
+    display: block;
+}
+
+.no-results span {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 12px;
+}
+
+/* --- FOOTER --- */
+footer {
+    background: #020617;
+    padding: 30px 40px;
+    text-align: center;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+footer a {
+    color: var(--accent-green);
+    text-decoration: none;
+}
+footer a:hover { text-decoration: underline; }
+
+/* --- RESPONSIVE --- */
+@media (max-width: 900px) {
+    .nav-links { display: none; }
+    .mobile-toggle { display: block; }
+}
+
+@media (max-width: 768px) {
+    header { padding: 15px 20px; }
+    .filter-bar { padding: 35px 20px 0; gap: 8px; }
+    .modpacks-section { padding: 25px 20px 60px; }
+    footer { padding: 25px 20px; }
+}
+
+@media (max-width: 480px) {
+    .modpacks-grid { grid-template-columns: 1fr; }
+    .filter-btn { padding: 7px 14px; font-size: 0.78rem; }
 }
 </style>
 </head>
 
 <body>
 
-<h1 class="title">Popular Minecraft Modpacks</h1>
+<header>
+    <a href="index.html" class="logo">
+        <span class="logo-dot"></span>
+        MMJ Servers
+    </a>
 
-<div class="modpacks">
+    <div class="nav-links">
+        <div class="dropdown" id="discoverDropdown">
+            <button class="dropdown-trigger" id="dropdownTrigger">
+                Discover <span class="dropdown-arrow">▾</span>
+            </button>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="mods.html">
+                    <span class="dropdown-icon">🧩</span> Mods
+                </a>
+                <a href="plugins.html">
+                    <span class="dropdown-icon">🔌</span> Plugins
+                </a>
+                <a href="servers.html">
+                    <span class="dropdown-icon">🌍</span> Servers
+                </a>
+                <a href="modpack.html" class="active-page">
+                    <span class="dropdown-icon">📦</span> Modpacks
+                </a>
+            </div>
+        </div>
 
-<div class="modpack-card">
-<h3>All the Mods 8</h3>
-<p>A large modpack with tech, magic, and adventure mods for Minecraft 1.20+</p>
-<a class="download-btn" href="https://www.curseforge.com/minecraft/modpacks/all-the-mods-8" target="_blank">Download</a>
+        <a class="nav-link" href="servers.html">Servers</a>
+        <a class="nav-cta" href="upload.html">Upload Server</a>
+    </div>
+
+    <button class="mobile-toggle" id="mobileToggle">☰</button>
+</header>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-inner">
+        <button class="mobile-close" id="mobileClose">&times;</button>
+
+        <a href="servers.html">
+            <span class="mobile-icon">🌍</span> Servers
+        </a>
+        <a href="mods.html">
+            <span class="mobile-icon">🧩</span> Mods
+        </a>
+        <a href="plugins.html">
+            <span class="mobile-icon">🔌</span> Plugins
+        </a>
+        <a href="modpack.html" style="color: var(--accent-purple);">
+            <span class="mobile-icon">📦</span> Modpacks
+        </a>
+
+        <div class="mobile-divider"></div>
+
+        <a href="index.html">
+            <span class="mobile-icon">🏠</span> Home
+        </a>
+        <a href="https://mmjgaming.github.io/" target="_blank" rel="noopener">
+            <span class="mobile-icon">👤</span> MMJ Online
+        </a>
+
+        <a class="mobile-cta" href="upload.html">Upload a Server</a>
+    </div>
 </div>
 
-<div class="modpack-card">
-<h3>SkyFactory 4</h3>
-<p>A skyblock modpack with tech progression, resource automation, and magical exploration.</p>
-<a class="download-btn" href="https://www.curseforge.com/minecraft/modpacks/skyfactory-4" target="_blank">Download</a>
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>Modpacks</h1>
+        <p>Curated modpacks ready to download and play — from tech to magic to PvP.</p>
+    </div>
+</section>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="tech">Tech</button>
+    <button class="filter-btn" data-filter="magic">Magic</button>
+    <button class="filter-btn" data-filter="adventure">Adventure</button>
+    <button class="filter-btn" data-filter="skyblock">Skyblock</button>
+    <button class="filter-btn" data-filter="hardcore">Hardcore</button>
+    <button class="filter-btn" data-filter="pvp">PvP</button>
 </div>
 
-<div class="modpack-card">
-<h3>RLCraft</h3>
-<p>Hardcore survival with realistic challenges, dangerous mobs, and immersive mechanics.</p>
-<a class="download-btn" href="https://www.curseforge.com/minecraft/modpacks/rlcraft" target="_blank">Download</a>
-</div>
+<!-- CARD GRID -->
+<section class="modpacks-section">
+    <div class="modpacks-grid" id="modpacksGrid">
 
-<div class="modpack-card">
-<h3>FTB Ultimate Reloaded</h3>
-<p>A classic tech and magic modpack for players who love building and automation.</p>
-<a class="download-btn" href="https://www.feed-the-beast.com/modpacks/ftb-ultimate-reloaded" target="_blank">Download</a>
-</div>
+        <!-- ATM 8 -->
+        <div class="modpack-card" data-tags="tech,magic,adventure,featured">
+            <div class="card-visual" style="background: linear-gradient(135deg, #0c4a6e, #1e3a5f);">
+                <span class="card-emoji">⚙️</span>
+            </div>
+            <div class="card-body">
+                <div class="card-tags">
+                    <span class="card-tag tag-featured">★ Featured</span>
+                    <span class="card-tag tag-tech">Tech</span>
+                    <span class="card-tag tag-magic">Magic</span>
+                </div>
+                <h3>All the Mods 8</h3>
+                <p>A massive modpack with tech, magic, and adventure mods for Minecraft 1.20+.</p>
+                <div class="card-footer">
+                    <a class="download-btn" href="https://www.curseforge.com/minecraft/modpacks/all-the-mods-8" target="_blank" rel="noopener">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download
+                    </a>
+                    <span class="card-source">CurseForge</span>
+                </div>
+            </div>
+        </div>
 
-<div class="modpack-card">
-<h3>Enigmatica 6</h3>
-<p>A balanced modpack with questing, technology, and exploration for Minecraft 1.19+</p>
-<a class="download-btn" href="https://www.curseforge.com/minecraft/modpacks/enigmatica6" target="_blank">Download</a>
-</div>
+        <!-- SkyFactory 4 -->
+        <div class="modpack-card" data-tags="tech,skyblock">
+            <div class="card-visual" style="background: linear-gradient(135deg, #713f12, #854d0e);">
+                <span class="card-emoji">☁️</span>
+            </div>
+            <div class="card-body">
+                <div class="card-tags">
+                    <span class="card-tag tag-skyblock">Skyblock</span>
+                    <span class="card-tag tag-tech">Tech</span>
+                </div>
+                <h3>SkyFactory 4</h3>
+                <p>A skyblock modpack with tech progression, resource automation, and magical exploration.</p>
+                <div class="card-footer">
+                    <a class="download-btn" href="https://www.curseforge.com/minecraft/modpacks/skyfactory-4" target="_blank" rel="noopener">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download
+                    </a>
+                    <span class="card-source">CurseForge</span>
+                </div>
+            </div>
+        </div>
 
-<div class="modpack-card">
-<h3>Valhelsia 3</h3>
-<p>An adventure and tech modpack focused on exploration, dungeons, and automation.</p>
-<a class="download-btn" href="https://www.curseforge.com/minecraft/modpacks/valhelsia-3" target="_blank">Download</a>
-</div>
+        <!-- RLCraft -->
+        <div class="modpack-card" data-tags="hardcore,adventure">
+            <div class="card-visual" style="background: linear-gradient(135deg, #7f1d1d, #991b1b);">
+                <span class="card-emoji">💀</span>
+            </div>
+            <div class="card-body">
+                <div class="card-tags">
+                    <span class="card-tag tag-hardcore">Hardcore</span>
+                    <span class="card-tag tag-adventure">Adventure</span>
+                </div>
+                <h3>RLCraft</h3>
+                <p>Hardcore survival with realistic challenges, dangerous mobs, and immersive mechanics.</p>
+                <div class="card-footer">
+                    <a class="download-btn" href="https://www.curseforge.com/minecraft/modpacks/rlcraft" target="_blank" rel="noopener">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download
+                    </a>
+                    <span class="card-source">CurseForge</span>
+                </div>
+            </div>
+        </div>
 
-<div class="modpack-card">
-<h3>Direwolf20 1.20</h3>
-<p>A tech-focused modpack by Direwolf20 with tutorials and automation mods.</p>
-<a class="download-btn" href="https://www.curseforge.com/minecraft/modpacks/direwolf20-1-20" target="_blank">Download</a>
-</div>
+        <!-- FTB Ultimate Reloaded -->
+        <div class="modpack-card" data-tags="tech,magic">
+            <div class="card-visual" style="background: linear-gradient(135deg, #1e3a5f, #1e40af);">
+                <span class="card-emoji">🔧</span>
+            </div>
+            <div class="card-body">
+                <div class="card-tags">
+                    <span class="card-tag tag-tech">Tech</span>
+                    <span class="card-tag tag-magic">Magic</span>
+                </div>
+                <h3>FTB Ultimate Reloaded</h3>
+                <p>A classic tech and magic modpack for players who love building and automation.</p>
+                <div class="card-footer">
+                    <a class="download-btn" href="https://www.feed-the-beast.com/modpacks/ftb-ultimate-reloaded" target="_blank" rel="noopener">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download
+                    </a>
+                    <span class="card-source">FTB</span>
+                </div>
+            </div>
+        </div>
 
-<div class="modpack-card">
-<h3>SevTech: Ages</h3>
-<p>Progressive modpack with technology and magic unlocked as you advance through ages.</p>
-<a class="download-btn" href="https://www.curseforge.com/minecraft/modpacks/sevtech-ages" target="_blank">Download</a>
-</div>
+        <!-- Enigmatica 6 -->
+        <div class="modpack-card" data-tags="tech,magic,quest">
+            <div class="card-visual" style="background: linear-gradient(135deg, #4c1d95, #5b21b6);">
+                <span class="card-emoji">🔮</span>
+            </div>
+            <div class="card-body">
+                <div class="card-tags">
+                    <span class="card-tag tag-quest">Quest</span>
+                    <span class="card-tag tag-tech">Tech</span>
+                    <span class="card-tag tag-magic">Magic</span>
+                </div>
+                <h3>Enigmatica 6</h3>
+                <p>A balanced modpack with questing, technology, and exploration for Minecraft 1.19+.</p>
+                <div class="card-footer">
+                    <a class="download-btn" href="https://www.curseforge.com/minecraft/modpacks/enigmatica6" target="_blank" rel="noopener">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download
+                    </a>
+                    <span class="card-source">CurseForge</span>
+                </div>
+            </div>
+        </div>
 
-<div class="modpack-card">
-<h3>ATM 7</h3>
-<p>All The Mods 7, large modpack for tech, magic, and building enthusiasts.</p>
-<a class="download-btn" href="https://www.curseforge.com/minecraft/modpacks/all-the-mods-7" target="_blank">Download</a>
-</div>
+        <!-- Valhelsia 3 -->
+        <div class="modpack-card" data-tags="adventure,tech">
+            <div class="card-visual" style="background: linear-gradient(135deg, #064e3b, #065f46);">
+                <span class="card-emoji">🏰</span>
+            </div>
+            <div class="card-body">
+                <div class="card-tags">
+                    <span class="card-tag tag-adventure">Adventure</span>
+                    <span class="card-tag tag-tech">Tech</span>
+                </div>
+                <h3>Valhelsia 3</h3>
+                <p>An adventure and tech modpack focused on exploration, dungeons, and automation.</p>
+                <div class="card-footer">
+                    <a class="download-btn" href="https://www.curseforge.com/minecraft/modpacks/valhelsia-3" target="_blank" rel="noopener">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download
+                    </a>
+                    <span class="card-source">CurseForge</span>
+                </div>
+            </div>
+        </div>
 
-<div class="modpack-card">
-<h3>Project Ozone 3</h3>
-<p>Skyblock modpack with questing, automation, and challenging progression.</p>
-<a class="download-btn" href="https://www.curseforge.com/minecraft/modpacks/project-ozone-3" target="_blank">Download</a>
-</div>
+        <!-- Direwolf20 1.20 -->
+        <div class="modpack-card" data-tags="tech">
+            <div class="card-visual" style="background: linear-gradient(135deg, #0c4a6e, #075985);">
+                <span class="card-emoji">📺</span>
+            </div>
+            <div class="card-body">
+                <div class="card-tags">
+                    <span class="card-tag tag-tech">Tech</span>
+                </div>
+                <h3>Direwolf20 1.20</h3>
+                <p>A tech-focused modpack by Direwolf20 with tutorials and automation mods.</p>
+                <div class="card-footer">
+                    <a class="download-btn" href="https://www.curseforge.com/minecraft/modpacks/direwolf20-1-20" target="_blank" rel="noopener">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download
+                    </a>
+                    <span class="card-source">CurseForge</span>
+                </div>
+            </div>
+        </div>
 
-<div class="modpack-card">
-<h3>Best PVP 3</h3>
-<p>Best For PVP.Use This if you want to muast in pvp! .</p>
-<a class="download-btn" href="https://drive.google.com/uc?export=download&id=1LYabmwg7Uew8mSV_Ypy9SKnyZdVdrkK_ " target="_blank">Download</a>
-</div>
+        <!-- SevTech: Ages -->
+        <div class="modpack-card" data-tags="tech,magic,adventure">
+            <div class="card-visual" style="background: linear-gradient(135deg, #78350f, #92400e);">
+                <span class="card-emoji">📜</span>
+            </div>
+            <div class="card-body">
+                <div class="card-tags">
+                    <span class="card-tag tag-adventure">Adventure</span>
+                    <span class="card-tag tag-tech">Tech</span>
+                    <span class="card-tag tag-magic">Magic</span>
+                </div>
+                <h3>SevTech: Ages</h3>
+                <p>Progressive modpack where technology and magic unlock as you advance through ages.</p>
+                <div class="card-footer">
+                    <a class="download-btn" href="https://www.curseforge.com/minecraft/modpacks/sevtech-ages" target="_blank" rel="noopener">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download
+                    </a>
+                    <span class="card-source">CurseForge</span>
+                </div>
+            </div>
+        </div>
 
-</div>
+        <!-- ATM 7 -->
+        <div class="modpack-card" data-tags="tech,magic">
+            <div class="card-visual" style="background: linear-gradient(135deg, #134e4a, #115e59);">
+                <span class="card-emoji">🧪</span>
+            </div>
+            <div class="card-body">
+                <div class="card-tags">
+                    <span class="card-tag tag-tech">Tech</span>
+                    <span class="card-tag tag-magic">Magic</span>
+                </div>
+                <h3>ATM 7</h3>
+                <p>All The Mods 7 — a large modpack for tech, magic, and building enthusiasts.</p>
+                <div class="card-footer">
+                    <a class="download-btn" href="https://www.curseforge.com/minecraft/modpacks/all-the-mods-7" target="_blank" rel="noopener">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download
+                    </a>
+                    <span class="card-source">CurseForge</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project Ozone 3 -->
+        <div class="modpack-card" data-tags="skyblock,quest">
+            <div class="card-visual" style="background: linear-gradient(135deg, #854d0e, #a16207);">
+                <span class="card-emoji">🏝️</span>
+            </div>
+            <div class="card-body">
+                <div class="card-tags">
+                    <span class="card-tag tag-skyblock">Skyblock</span>
+                    <span class="card-tag tag-quest">Quest</span>
+                </div>
+                <h3>Project Ozone 3</h3>
+                <p>Skyblock modpack with questing, automation, and challenging progression.</p>
+                <div class="card-footer">
+                    <a class="download-btn" href="https://www.curseforge.com/minecraft/modpacks/project-ozone-3" target="_blank" rel="noopener">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download
+                    </a>
+                    <span class="card-source">CurseForge</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Best PVP 3 -->
+        <div class="modpack-card" data-tags="pvp">
+            <div class="card-visual" style="background: linear-gradient(135deg, #991b1b, #b91c1c);">
+                <span class="card-emoji">⚔️</span>
+            </div>
+            <div class="card-body">
+                <div class="card-tags">
+                    <span class="card-tag tag-pvp">PvP</span>
+                </div>
+                <h3>Best PVP 3</h3>
+                <p>Optimized for PvP combat — use this if you want to master competitive Minecraft fights.</p>
+                <div class="card-footer">
+                    <a class="download-btn" href="https://drive.google.com/uc?export=download&id=1LYabmwg7Uew8mSV_Ypy9SKnyZdVdrkK_" target="_blank" rel="noopener">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download
+                    </a>
+                    <span class="card-source">Google Drive</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- No results message -->
+    <div class="no-results" id="noResults">
+        <span>🔍</span>
+        <p>No modpacks found for this category.</p>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2026 MMJ Servers &bull; Part of <a href="https://mmjgaming.github.io/" target="_blank" rel="noopener">MMJ Online</a></p>
+</footer>
+
+<script>
+    // --- Desktop Dropdown ---
+    const trigger  = document.getElementById('dropdownTrigger');
+    const ddMenu   = document.getElementById('dropdownMenu');
+    const dropWrap = document.getElementById('discoverDropdown');
+
+    trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        ddMenu.classList.toggle('open');
+        trigger.classList.toggle('active');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!dropWrap.contains(e.target)) {
+            ddMenu.classList.remove('open');
+            trigger.classList.remove('active');
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            ddMenu.classList.remove('open');
+            trigger.classList.remove('active');
+            closeMobileMenu();
+        }
+    });
+
+    // --- Mobile Menu ---
+    const mobileToggle = document.getElementById('mobileToggle');
+    const mobileMenu   = document.getElementById('mobileMenu');
+    const mobileClose  = document.getElementById('mobileClose');
+
+    function openMobileMenu() {
+        mobileMenu.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeMobileMenu() {
+        mobileMenu.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    mobileToggle.addEventListener('click', openMobileMenu);
+    mobileClose.addEventListener('click', closeMobileMenu);
+    mobileMenu.addEventListener('click', (e) => {
+        if (e.target === mobileMenu) closeMobileMenu();
+    });
+    mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', closeMobileMenu);
+    });
+
+    // --- Filter System ---
+    const filterBtns  = document.querySelectorAll('.filter-btn');
+    const cards       = document.querySelectorAll('.modpack-card');
+    const noResults   = document.getElementById('noResults');
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Update active button
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const filter = btn.dataset.filter;
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                const tags = card.dataset.tags.split(',');
+                const show = filter === 'all' || tags.includes(filter);
+
+                card.style.display = show ? '' : 'none';
+                if (show) visibleCount++;
+            });
+
+            // Show/hide no results message
+            noResults.classList.toggle('visible', visibleCount === 0);
+        });
+    });
+</script>
 
 </body>
 </html>
