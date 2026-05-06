@@ -2,147 +2,1092 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Plugins | MMJ Servers</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plugins | MMJ Servers</title>
+<meta name="description" content="Essential Minecraft server plugins — core, utility, protection, economy, and more. Download from trusted sources.">
+<meta name="keywords" content="Minecraft plugins, EssentialsX, LuckPerms, WorldEdit, CoreProtect, Dynmap, MMJ Servers">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
 <style>
-body{
-    background:#0b0f1a;
-    color:white;
-    font-family:Arial;
-    margin:0;
+
+:root {
+    --bg-dark: #0f172a;
+    --bg-card: #1e293b;
+    --bg-header: rgba(2, 6, 23, 0.95);
+    --primary: #0ea5e9;
+    --primary-hover: #0284c7;
+    --accent-green: #22c55e;
+    --accent-green-hover: #16a34a;
+    --accent-amber: #f59e0b;
+    --accent-cyan: #22d3ee;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --border: #334155;
 }
 
-.title{
-    text-align:center;
-    font-size:40px;
-    margin-top:40px;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.plugins{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-    gap:25px;
-    padding:40px;
+html {
+    scroll-behavior: smooth;
 }
 
-.plugin-card{
-    background:#111827;
-    padding:20px;
-    border-radius:10px;
-    transition:0.2s;
+body {
+    background: var(--bg-dark);
+    color: var(--text-main);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
 }
 
-.plugin-card:hover{
-    transform:translateY(-5px);
+/* --- HEADER --- */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    background: var(--bg-header);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
-.plugin-card h3{
-    color:#22c55e;
-    margin-bottom:10px;
+.logo {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.plugin-card p{
-    color:#9ca3af;
-    font-size:14px;
-    margin-bottom:15px;
-    line-height:1.6;
+.logo-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: var(--accent-green);
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
 }
 
-.download-btn{
-    background:#22c55e;
-    padding:8px 16px;
-    border-radius:6px;
-    text-decoration:none;
-    color:black;
-    font-weight:bold;
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.download-btn:hover{
-    background:#16a34a;
+.nav-link {
+    padding: 8px 16px;
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: 0.2s;
+}
+
+.nav-link:hover {
+    color: var(--text-main);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* --- DROPDOWN --- */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-trigger {
+    padding: 8px 16px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: 0.2s;
+    border: none;
+    background: none;
+    font-family: inherit;
+}
+
+.dropdown-trigger:hover,
+.dropdown-trigger.active {
+    color: var(--text-main);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.dropdown-arrow {
+    font-size: 0.7rem;
+    transition: transform 0.2s ease;
+    line-height: 1;
+}
+
+.dropdown-trigger.active .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) translateY(-8px);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 8px;
+    min-width: 180px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+    z-index: 100;
+}
+
+.dropdown-menu.open {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+}
+
+.dropdown-menu a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 14px;
+    text-decoration: none;
+    color: var(--text-muted);
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    transition: 0.15s;
+}
+
+.dropdown-menu a:hover {
+    background: var(--border);
+    color: var(--text-main);
+}
+
+.dropdown-menu a.active-page {
+    color: var(--accent-cyan);
+}
+
+.dropdown-icon {
+    font-size: 1.1rem;
+    line-height: 1;
+    width: 24px;
+    text-align: center;
+}
+
+.nav-cta {
+    padding: 8px 20px;
+    background: var(--accent-green);
+    border-radius: 8px;
+    text-decoration: none;
+    color: #022c22;
+    font-weight: 700;
+    font-size: 0.88rem;
+    transition: 0.2s;
+    box-shadow: 0 2px 10px rgba(34, 197, 94, 0.25);
+    margin-left: 4px;
+}
+
+.nav-cta:hover {
+    background: var(--accent-green-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.35);
+}
+
+/* --- MOBILE MENU --- */
+.mobile-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 24px;
+    cursor: pointer;
+    padding: 5px;
+    line-height: 1;
+    transition: color 0.2s;
+}
+.mobile-toggle:hover { color: var(--text-main); }
+
+.mobile-menu {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 2000;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, visibility 0.3s;
+}
+
+.mobile-menu.open {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.mobile-menu-inner {
+    background: var(--bg-card);
+    width: 280px;
+    height: 100%;
+    padding: 30px 24px;
+    border-right: 1px solid var(--border);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.mobile-menu.open .mobile-menu-inner {
+    transform: translateX(0);
+}
+
+.mobile-close {
+    align-self: flex-end;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 28px;
+    cursor: pointer;
+    padding: 4px;
+    margin-bottom: 20px;
+    line-height: 1;
+    transition: color 0.2s;
+}
+.mobile-close:hover { color: white; }
+
+.mobile-menu a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 12px;
+    text-decoration: none;
+    color: var(--text-muted);
+    border-radius: 10px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: 0.15s;
+}
+
+.mobile-menu a:hover {
+    background: var(--border);
+    color: var(--text-main);
+}
+
+.mobile-icon {
+    font-size: 1.2rem;
+    width: 28px;
+    text-align: center;
+    line-height: 1;
+}
+
+.mobile-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 12px 0;
+}
+
+.mobile-cta {
+    margin-top: auto;
+    display: block;
+    padding: 14px;
+    background: var(--accent-green);
+    border-radius: 10px;
+    text-decoration: none;
+    color: #022c22;
+    font-weight: 700;
+    text-align: center;
+    font-size: 0.95rem;
+}
+
+/* --- HERO --- */
+.hero {
+    min-height: 35vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(160deg, #064e3b 0%, #0f172a 55%, #1e293b 100%);
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: var(--accent-green);
+    filter: blur(150px);
+    opacity: 0.1;
+    border-radius: 50%;
+    top: -120px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: var(--accent-amber);
+    filter: blur(120px);
+    opacity: 0.06;
+    border-radius: 50%;
+    bottom: -80px;
+    right: 10%;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    padding: 0 20px;
+}
+
+.hero h1 {
+    font-size: clamp(32px, 4vw, 50px);
+    font-weight: 800;
+    background: linear-gradient(to right, #fff, #86efac);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 17px;
+    color: var(--text-muted);
+}
+
+/* --- FILTER BAR --- */
+.filter-bar {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 45px 40px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 8px 18px;
+    border-radius: 50px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-muted);
+    font-family: inherit;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.filter-btn:hover {
+    border-color: var(--text-muted);
+    color: var(--text-main);
+}
+
+.filter-btn.active {
+    background: var(--accent-green);
+    border-color: var(--accent-green);
+    color: #022c22;
+}
+
+/* --- CARD GRID --- */
+.plugins-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 40px 80px;
+}
+
+.plugins-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 22px;
+}
+
+.plugin-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.plugin-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+    border-color: var(--accent-green);
+}
+
+.card-visual {
+    height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-visual::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 40%, var(--bg-card));
+}
+
+.card-emoji {
+    font-size: 2.8rem;
+    position: relative;
+    z-index: 1;
+    line-height: 1;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+}
+
+.card-body {
+    padding: 18px 22px 22px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.card-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.card-tag {
+    padding: 3px 10px;
+    border-radius: 50px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.tag-core       { background: rgba(14, 165, 233, 0.12); color: #38bdf8; }
+.tag-utility    { background: rgba(250, 204, 21, 0.12); color: #facc15; }
+.tag-protection { background: rgba(239, 68, 68, 0.12); color: #f87171; }
+.tag-economy    { background: rgba(34, 197, 94, 0.12); color: #4ade80; }
+.tag-mechanics  { background: rgba(249, 115, 22, 0.12); color: #fb923c; }
+.tag-world      { background: rgba(168, 85, 247, 0.12); color: #c084fc; }
+.tag-custom     { background: rgba(34, 211, 238, 0.12); color: #22d3ee; }
+.tag-library    { background: rgba(148, 163, 184, 0.12); color: #94a3b8; }
+.tag-featured   { background: rgba(34, 211, 238, 0.15); color: #22d3ee; border: 1px solid rgba(34, 211, 238, 0.3); }
+
+.card-body h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--text-main);
+}
+
+.card-body p {
+    font-size: 0.86rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 16px;
+    flex-grow: 1;
+}
+
+.card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 18px;
+    background: var(--accent-green);
+    border-radius: 8px;
+    text-decoration: none;
+    color: #022c22;
+    font-weight: 700;
+    font-size: 0.83rem;
+    transition: 0.2s;
+    box-shadow: 0 2px 10px rgba(34, 197, 94, 0.2);
+}
+
+.download-btn:hover {
+    background: var(--accent-green-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+}
+
+.card-source {
+    font-size: 0.73rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    opacity: 0.7;
+}
+
+/* --- NO RESULTS --- */
+.no-results {
+    display: none;
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+}
+
+.no-results.visible {
+    display: block;
+}
+
+.no-results span {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 12px;
+}
+
+/* --- STATS BAR --- */
+.stats-bar {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 40px 0;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.stat-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.stat-chip strong {
+    color: var(--text-main);
+    font-weight: 700;
+}
+
+.stat-chip-icon {
+    font-size: 1.1rem;
+    line-height: 1;
+}
+
+/* --- FOOTER --- */
+footer {
+    background: #020617;
+    padding: 30px 40px;
+    text-align: center;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+footer a {
+    color: var(--accent-green);
+    text-decoration: none;
+}
+footer a:hover { text-decoration: underline; }
+
+/* --- RESPONSIVE --- */
+@media (max-width: 900px) {
+    .nav-links { display: none; }
+    .mobile-toggle { display: block; }
+}
+
+@media (max-width: 768px) {
+    header { padding: 15px 20px; }
+    .filter-bar { padding: 35px 20px 0; gap: 8px; }
+    .plugins-section { padding: 25px 20px 60px; }
+    .stats-bar { padding: 25px 20px 0; gap: 10px; }
+    footer { padding: 25px 20px; }
+}
+
+@media (max-width: 480px) {
+    .plugins-grid { grid-template-columns: 1fr; }
+    .filter-btn { padding: 7px 14px; font-size: 0.78rem; }
+    .stat-chip { padding: 8px 14px; font-size: 0.8rem; }
 }
 </style>
 </head>
 
 <body>
 
-<h1 class="title">Minecraft Plugins</h1>
+<header>
+    <a href="index.html" class="logo">
+        <span class="logo-dot"></span>
+        MMJ Servers
+    </a>
 
-<div class="plugins">
+    <div class="nav-links">
+        <div class="dropdown" id="discoverDropdown">
+            <button class="dropdown-trigger" id="dropdownTrigger">
+                Discover <span class="dropdown-arrow">▾</span>
+            </button>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="mods.html">
+                    <span class="dropdown-icon">🧩</span> Mods
+                </a>
+                <a href="plugins.html" class="active-page">
+                    <span class="dropdown-icon">🔌</span> Plugins
+                </a>
+                <a href="servers.html">
+                    <span class="dropdown-icon">🌍</span> Servers
+                </a>
+                <a href="modpack.html">
+                    <span class="dropdown-icon">📦</span> Modpacks
+                </a>
+            </div>
+        </div>
 
-<div class="plugin-card">
-<h3>VKSpears SMP</h3>
-<p>Custom SMP plugin with unique features, mini-games, and multiplayer survival enhancements.</p>
-<a class="download-btn" href="https://www.spigotmc.org/resources/vkspearsmp.131927/download?version=622974&__cf_chl_tk=zYdB1IJZqV3g3NE25i976RyDZe59J5CMrdJR.nDZxGE-1773709198-1.0.1.1-A.XWLY6K0hL4cRhBjfo22RVQWHqMeHhMUx8CFVAYK5w" target="_blank">Download</a>
+        <a class="nav-link" href="servers.html">Servers</a>
+        <a class="nav-cta" href="upload.html">Upload Server</a>
+    </div>
+
+    <button class="mobile-toggle" id="mobileToggle">☰</button>
+</header>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-inner">
+        <button class="mobile-close" id="mobileClose">&times;</button>
+
+        <a href="servers.html">
+            <span class="mobile-icon">🌍</span> Servers
+        </a>
+        <a href="mods.html">
+            <span class="mobile-icon">🧩</span> Mods
+        </a>
+        <a href="plugins.html" style="color: var(--accent-cyan);">
+            <span class="mobile-icon">🔌</span> Plugins
+        </a>
+        <a href="modpack.html">
+            <span class="mobile-icon">📦</span> Modpacks
+        </a>
+
+        <div class="mobile-divider"></div>
+
+        <a href="index.html">
+            <span class="mobile-icon">🏠</span> Home
+        </a>
+        <a href="https://mmjgaming.github.io/" target="_blank" rel="noopener">
+            <span class="mobile-icon">👤</span> MMJ Online
+        </a>
+
+        <a class="mobile-cta" href="upload.html">Upload a Server</a>
+    </div>
 </div>
 
-<div class="plugin-card">
-<h3>WorldEdit</h3>
-<p>Powerful in-game map editor for easy creation and modification of large areas.</p>
-<a class="download-btn" href="https://dev.bukkit.org/projects/worldedit" target="_blank">Download</a>
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>Plugins</h1>
+        <p>Essential server plugins — core management, protection, economy, utility, and more.</p>
+    </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+    <div class="stat-chip">
+        <span class="stat-chip-icon">🔌</span>
+        <strong>12</strong> Plugins
+    </div>
+    <div class="stat-chip">
+        <span class="stat-chip-icon">🏷️</span>
+        <strong>6</strong> Categories
+    </div>
+    <div class="stat-chip">
+        <span class="stat-chip-icon">⚡</span>
+        Spigot / Bukkit / Paper
+    </div>
 </div>
 
-<div class="plugin-card">
-<h3>EssentialsX</h3>
-<p>Core server commands, teleportation, economy, and chat management.</p>
-<a class="download-btn" href="https://essentialsx.net/downloads.html" target="_blank">Download</a>
+<!-- FILTER BAR -->
+<div class="filter-bar">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="core">Core</button>
+    <button class="filter-btn" data-filter="utility">Utility</button>
+    <button class="filter-btn" data-filter="protection">Protection</button>
+    <button class="filter-btn" data-filter="economy">Economy</button>
+    <button class="filter-btn" data-filter="mechanics">Mechanics</button>
+    <button class="filter-btn" data-filter="world">World</button>
 </div>
 
-<div class="plugin-card">
-<h3>LuckPerms</h3>
-<p>Advanced permissions management plugin for secure server access control.</p>
-<a class="download-btn" href="https://luckperms.net/download" target="_blank">Download</a>
-</div>
+<!-- CARD GRID -->
+<section class="plugins-section">
+    <div class="plugins-grid" id="pluginsGrid">
 
-<div class="plugin-card">
-<h3>Vault</h3>
-<p>API for economy, chat, and permissions for smooth plugin integration.</p>
-<a class="download-btn" href="https://www.spigotmc.org/resources/vault.34315/" target="_blank">Download</a>
-</div>
+        <!-- VKSpears SMP -->
+        <div class="plugin-card" data-tags="custom,featured">
+            <div class="card-visual" style="background: linear-gradient(135deg, #164e63, #0e7490);">
+                <span class="card-emoji">⚔️</span>
+            </div>
+            <div class="card-body">
+                <div class="card-tags">
+                    <span class="card-tag tag-featured">★ Featured</span>
+                    <span class="card-tag tag-custom">Custom</span>
+                </div>
+                <h3>VKSpears SMP</h3>
+                <p>Custom SMP plugin with unique features, mini-games, and multiplayer survival enhancements.</p>
+                <div class="card-footer">
+                    <a class="download-btn" href="https://www.spigotmc.org/resources/vkspearsmp.131927/" target="_blank" rel="noopener">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download
+                    </a>
+                    <span class="card-source">SpigotMC</span>
+                </div>
+            </div>
+        </div>
 
-<div class="plugin-card">
-<h3>CoreProtect</h3>
-<p>Block logging and rollback tool to protect your server from griefing.</p>
-<a class="download-btn" href="https://www.spigotmc.org/resources/coreprotect.8631/" target="_blank">Download</a>
-</div>
+        <!-- WorldEdit -->
+        <div class="plugin-card" data-tags="utility,featured">
+            <div class="card-visual" style="background: linear-gradient(135deg, #1e3a5f, #1d4ed8);">
+                <span class="card-emoji">🏗️</span>
+            </div>
+            <div class="card-body">
+                <div class="card-tags">
+                    <span class="card-tag tag-featured">★ Featured</span>
+                    <span class="card-tag tag-utility">Utility</span>
+                </div>
+                <h3>WorldEdit</h3>
+                <p>Powerful in-game map editor for easy creation and modification of large areas.</p>
+                <div class="card-footer">
+                    <a class="download-btn" href="https://dev.bukkit.org/projects/worldedit" target="_blank" rel="noopener">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download
+                    </a>
+                    <span class="card-source">Bukkit</span>
+                </div>
+            </div>
+        </div>
 
-<div class="plugin-card">
-<h3>Dynmap</h3>
-<p>Live web-based map of your server world, like Google Maps for Minecraft.</p>
-<a class="download-btn" href="https://www.spigotmc.org/resources/dynmap.274/" target="_blank">Download</a>
-</div>
+        <!-- EssentialsX -->
+        <div class="plugin-card" data-tags="core,featured">
+            <div class="card-visual" style="background: linear-gradient(135deg, #064e3b, #065f46);">
+                <span class="card-emoji">🛠️</span>
+            </div>
+            <div class="card-body">
+                <div class="card-tags">
+                    <span class="card-tag tag-featured">★ Featured</span>
+                    <span class="card-tag tag-core">Core</span>
+                </div>
+                <h3>EssentialsX</h3>
+                <p>Core server commands, teleportation, economy, and chat management.</p>
+                <div class="card-footer">
+                    <a class="download-btn" href="https://essentialsx.net/downloads.html" target="_blank" rel="noopener">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download
+                    </a>
+                    <span class="card-source">EssentialsX</span>
+                </div>
+            </div>
+        </div>
 
-<div class="plugin-card">
-<h3>Multiverse-Core</h3>
-<p>Manage multiple worlds with portals, teleportation, and world control.</p>
-<a class="download-btn" href="https://dev.bukkit.org/projects/multiverse-core" target="_blank">Download</a>
-</div>
+        <!-- LuckPerms -->
+        <div class="plugin-card" data-tags="core">
+            <div class="card-visual" style="background: linear-gradient(135deg, #0c4a6e, #075985);">
+                <span class="card-emoji">🔐</span>
+            </div>
+            <div class="card-body">
+                <div class="card-tags">
+                    <span class="card-tag tag-core">Core</span>
+                </div>
+                <h3>LuckPerms</h3>
+                <p>Advanced permissions management plugin for secure server access control.</p>
+                <div class="card-footer">
+                    <a class="download-btn" href="https://luckperms.net/download" target="_blank" rel="noopener">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download
+                    </a>
+                    <span class="card-source">LuckPerms</span>
+                </div>
+            </div>
+        </div>
 
-<div class="plugin-card">
-<h3>GriefPrevention</h3>
-<p>Protect builds with claims and trust system to prevent griefing.</p>
-<a class="download-btn" href="https://www.spigotmc.org/resources/griefprevention.1884/" target="_blank">Download</a>
-</div>
+        <!-- Vault -->
+        <div class="plugin-card" data-tags="core,library">
+            <div class="card-visual" style="background: linear-gradient(135deg, #1e293b, #334155);">
+                <span class="card-emoji">🏦</span>
+            </div>
+            <div class="card-body">
+                <div class="card-tags">
+                    <span class="card-tag tag-core">Core</span>
+                    <span class="card-tag tag-library">Library</span>
+                </div>
+                <h3>Vault</h3>
+                <p>API for economy, chat, and permissions for smooth plugin integration.</p>
+                <div class="card-footer">
+                    <a class="download-btn" href="https://www.spigotmc.org/resources/vault.34315/" target="_blank" rel="noopener">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download
+                    </a>
+                    <span class="card-source">SpigotMC</span>
+                </div>
+            </div>
+        </div>
 
-<div class="plugin-card">
-<h3>ChestShop</h3>
-<p>Player-run shops with chest-based economy plugin.</p>
-<a class="download-btn" href="https://www.spigotmc.org/resources/chestshop.51856/" target="_blank">Download</a>
-</div>
+        <!-- CoreProtect -->
+        <div class="plugin-card" data-tags="protection">
+            <div class="card-visual" style="background: linear-gradient(135deg, #7f1d1d, #991b1b);">
+                <span class="card-emoji">🛡️</span>
+            </div>
+            <div class="card-body">
+                <div class="card-tags">
+                    <span class="card-tag tag-protection">Protection</span>
+                </div>
+                <h3>CoreProtect</h3>
+                <p>Block logging and rollback tool to protect your server from griefing.</p>
+                <div class="card-footer">
+                    <a class="download-btn" href="https://www.spigotmc.org/resources/coreprotect.8631/" target="_blank" rel="noopener">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download
+                    </a>
+                    <span class="card-source">SpigotMC</span>
+                </div>
+            </div>
+        </div>
 
-<div class="plugin-card">
-<h3>Citizens</h3>
-<p>Add NPCs to your server for quests, shops, or decoration.</p>
-<a class="download-btn" href="https://www.spigotmc.org/resources/citizens.13811/" target="_blank">Download</a>
-</div>
+        <!-- Dynmap -->
+        <div class="plugin-card" data-tags="utility">
+            <div class="card-visual" style="background: linear-gradient(135deg, #134e4a, #115e59);">
+                <span class="card-emoji">🗺️</span>
+            </div>
+            <div class="card-body">
+                <div class="card-tags">
+                    <span class="card-tag tag-utility">Utility</span>
+                </div>
+                <h3>Dynmap</h3>
+                <p>Live web-based map of your server world, like Google Maps for Minecraft.</p>
+                <div class="card-footer">
+                    <a class="download-btn" href="https://www.spigotmc.org/resources/dynmap.274/" target="_blank" rel="noopener">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download
+                    </a>
+                    <span class="card-source">SpigotMC</span>
+                </div>
+            </div>
+        </div>
 
-<div class="plugin-card">
-<h3>mcMMO</h3>
-<p>Adds RPG-like skills and abilities to enhance survival gameplay.</p>
-<a class="download-btn" href="https://www.spigotmc.org/resources/official-mcmmo-original-author-returns.64348/" target="_blank">Download</a>
-</div>
+        <!-- Multiverse-Core -->
+        <div class="plugin-card" data-tags="world">
+            <div class="card-visual" style="background: linear-gradient(135deg, #581c87, #7e22ce);">
+                <span class="card-emoji">🌌</span>
+            </div>
+            <div class="card-body">
+                <div class="card-tags">
+                    <span class="card-tag tag-world">World</span>
+                </div>
+                <h3>Multiverse-Core</h3>
+                <p>Manage multiple worlds with portals, teleportation, and world control.</p>
+                <div class="card-footer">
+                    <a class="download-btn" href="https://dev.bukkit.org/projects/multiverse-core" target="_blank" rel="noopener">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download
+                    </a>
+                    <span class="card-source">Bukkit</span>
+                </div>
+            </div>
+        </div>
 
-</div>
+        <!-- GriefPrevention -->
+        <div class="plugin-card" data-tags="protection">
+            <div class="card-visual" style="background: linear-gradient(135deg, #78350f, #92400e);">
+                <span class="card-emoji">🚧</span>
+            </div>
+            <div class="card-body">
+                <div class="card-tags">
+                    <span class="card-tag tag-protection">Protection</span>
+                </div>
+                <h3>GriefPrevention</h3>
+                <p>Protect builds with claims and trust system to prevent griefing.</p>
+                <div class="card-footer">
+                    <a class="download-btn" href="https://www.spigotmc.org/resources/griefprevention.1884/" target="_blank" rel="noopener">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download
+                    </a>
+                    <span class="card-source">SpigotMC</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ChestShop -->
+        <div class="plugin-card" data-tags="economy">
+            <div class="card-visual" style="background: linear-gradient(135deg, #14532d, #166534);">
+                <span class="card-emoji">💰</span>
+            </div>
+            <div class="card-body">
+                <div class="card-tags">
+                    <span class="card-tag tag-economy">Economy</span>
+                </div>
+                <h3>ChestShop</h3>
+                <p>Player-run shops with chest-based economy plugin for trading items.</p>
+                <div class="card-footer">
+                    <a class="download-btn" href="https://www.spigotmc.org/resources/chestshop.51856/" target="_blank" rel="noopener">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download
+                    </a>
+                    <span class="card-source">SpigotMC</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Citizens -->
+        <div class="plugin-card" data-tags="utility">
+            <div class="card-visual" style="background: linear-gradient(135deg, #4c1d95, #6d28d9);">
+                <span class="card-emoji">🧑‍🤝‍🧑</span>
+            </div>
+            <div class="card-body">
+                <div class="card-tags">
+                    <span class="card-tag tag-utility">Utility</span>
+                </div>
+                <h3>Citizens</h3>
+                <p>Add NPCs to your server for quests, shops, or decoration.</p>
+                <div class="card-footer">
+                    <a class="download-btn" href="https://www.spigotmc.org/resources/citizens.13811/" target="_blank" rel="noopener">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download
+                    </a>
+                    <span class="card-source">SpigotMC</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- mcMMO -->
+        <div class="plugin-card" data-tags="mechanics">
+            <div class="card-visual" style="background: linear-gradient(135deg, #9a3412, #c2410c);">
+                <span class="card-emoji">⚔️</span>
+            </div>
+            <div class="card-body">
+                <div class="card-tags">
+                    <span class="card-tag tag-mechanics">Mechanics</span>
+                </div>
+                <h3>mcMMO</h3>
+                <p>Adds RPG-like skills and abilities to enhance survival gameplay.</p>
+                <div class="card-footer">
+                    <a class="download-btn" href="https://www.spigotmc.org/resources/official-mcmmo-original-author-returns.64348/" target="_blank" rel="noopener">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download
+                    </a>
+                    <span class="card-source">SpigotMC</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- No results message -->
+    <div class="no-results" id="noResults">
+        <span>🔍</span>
+        <p>No plugins found for this category.</p>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2026 MMJ Servers &bull; Part of <a href="https://mmjgaming.github.io/" target="_blank" rel="noopener">MMJ Online</a></p>
+</footer>
+
+<script>
+    // --- Desktop Dropdown ---
+    const trigger  = document.getElementById('dropdownTrigger');
+    const ddMenu   = document.getElementById('dropdownMenu');
+    const dropWrap = document.getElementById('discoverDropdown');
+
+    trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        ddMenu.classList.toggle('open');
+        trigger.classList.toggle('active');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!dropWrap.contains(e.target)) {
+            ddMenu.classList.remove('open');
+            trigger.classList.remove('active');
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            ddMenu.classList.remove('open');
+            trigger.classList.remove('active');
+            closeMobileMenu();
+        }
+    });
+
+    // --- Mobile Menu ---
+    const mobileToggle = document.getElementById('mobileToggle');
+    const mobileMenu   = document.getElementById('mobileMenu');
+    const mobileClose  = document.getElementById('mobileClose');
+
+    function openMobileMenu() {
+        mobileMenu.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeMobileMenu() {
+        mobileMenu.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    mobileToggle.addEventListener('click', openMobileMenu);
+    mobileClose.addEventListener('click', closeMobileMenu);
+    mobileMenu.addEventListener('click', (e) => {
+        if (e.target === mobileMenu) closeMobileMenu();
+    });
+    mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', closeMobileMenu);
+    });
+
+    // --- Filter System ---
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const cards      = document.querySelectorAll('.plugin-card');
+    const noResults  = document.getElementById('noResults');
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const filter = btn.dataset.filter;
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                const tags = card.dataset.tags.split(',');
+                const show = filter === 'all' || tags.includes(filter);
+
+                card.style.display = show ? '' : 'none';
+                if (show) visibleCount++;
+            });
+
+            noResults.classList.toggle('visible', visibleCount === 0);
+        });
+    });
+</script>
 
 </body>
 </html>
